@@ -13,6 +13,11 @@ import {
   ChartYAxis,
   ChartArea,
 } from "@/components/ui/chart"
+import { PieChart } from "@/components/ui/pie-chart"
+
+interface OverviewChartProps {
+  type?: "line" | "pie"
+}
 
 const data = [
   {
@@ -59,15 +64,29 @@ const data = [
   },
 ]
 
-export function OverviewChart() {
+const pieData = [
+  { name: "Users", value: 125, color: "hsl(var(--primary))" },
+  { name: "Events", value: 50, color: "hsl(var(--accent))" },
+  { name: "Stories", value: 15, color: "#f8b4b4" },
+]
+
+export function OverviewChart({ type = "line" }: OverviewChartProps) {
+  if (type === "pie") {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <PieChart data={pieData} />
+      </div>
+    )
+  }
+
   return (
-    <Chart className="h-[300px]">
-      <ChartLegend className="mb-4 justify-center gap-8">
+    <Chart>
+      <ChartLegend className="mb-6">
         <ChartLegendItem name="Users" color="hsl(var(--primary))" />
         <ChartLegendItem name="Events" color="hsl(var(--accent))" />
         <ChartLegendItem name="Stories" color="#f8b4b4" />
       </ChartLegend>
-      <ChartContainer data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+      <ChartContainer data={data} margin={{ top: 20, right: 20, bottom: 20, left: 40 }}>
         <ChartGrid horizontal vertical={false} />
         <ChartXAxis dataKey="name" />
         <ChartYAxis />

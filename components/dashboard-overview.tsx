@@ -28,7 +28,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 
 export function DashboardOverview() {
-  const [activeChartTab, setActiveChartTab] = useState("line")
+  const [activeChartTab, setActiveChartTab] = useState<"line" | "pie">("line")
   const [progress, setProgress] = useState(68)
 
   // Simulated notifications data
@@ -112,7 +112,7 @@ export function DashboardOverview() {
       <div className="flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Welcome to WEDMIN</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Welcome to Nexus</h1>
             <p className="text-muted-foreground">Your ultimate wedding management platform</p>
           </div>
           <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
@@ -216,15 +216,23 @@ export function DashboardOverview() {
       </div>
 
       {/* Main Content */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
         {/* Chart Section with Tabs */}
-        <Card className="glass-card gradient-border col-span-2">
+        <Card className="glass-card gradient-border lg:col-span-4">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle>Analytics Overview</CardTitle>
               <CardDescription>User submissions and event registrations</CardDescription>
             </div>
-            <Tabs defaultValue="line" className="w-[200px]" onValueChange={setActiveChartTab}>
+            <Tabs
+              defaultValue="line"
+              className="w-[200px]"
+              onValueChange={(value) => {
+                if (value === "line" || value === "pie") {
+                  setActiveChartTab(value)
+                }
+              }}
+            >
               <TabsList className="grid w-full grid-cols-2 h-8">
                 <TabsTrigger value="line" className="text-xs flex items-center gap-1">
                   <BarChart3 className="h-3 w-3" /> Activity
@@ -235,8 +243,8 @@ export function DashboardOverview() {
               </TabsList>
             </Tabs>
           </CardHeader>
-          <CardContent>
-            <div className="h-[300px]">
+          <CardContent className="pt-0 pb-4">
+            <div className="h-[350px] mt-4 w-full">
               <OverviewChart type={activeChartTab} />
             </div>
           </CardContent>
@@ -244,7 +252,7 @@ export function DashboardOverview() {
             <div className="text-sm text-muted-foreground">
               <span className="font-medium text-foreground">68%</span> of yearly target reached
             </div>
-            <div className="w-1/2">
+            <div className="w-1/3">
               <Progress value={progress} className="h-2" />
             </div>
             <Button variant="outline" size="sm" className="h-8 border-primary/20 bg-primary/5">
@@ -255,7 +263,7 @@ export function DashboardOverview() {
         </Card>
 
         {/* Notifications Feed */}
-        <Card className="glass-card gradient-border row-span-2">
+        <Card className="glass-card gradient-border row-span-2 lg:col-span-3">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle>Notifications</CardTitle>
@@ -266,22 +274,21 @@ export function DashboardOverview() {
             <CardDescription>Recent activity and updates</CardDescription>
           </CardHeader>
           <CardContent className="px-2">
-            <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+            <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
               {notifications.map((notification) => (
                 <div
                   key={notification.id}
                   className={`flex gap-3 p-3 rounded-lg transition-all hover:bg-primary/5 border ${notification.read ? "border-primary/10" : "border-accent/30 bg-accent/5"}`}
                 >
                   <div
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-                      notification.type === "booking"
-                        ? "bg-accent/10 text-accent"
-                        : notification.type === "review"
-                          ? "bg-yellow-500/10 text-yellow-500"
-                          : notification.type === "payment"
-                            ? "bg-green-500/10 text-green-500"
-                            : "bg-primary/10 text-primary"
-                    }`}
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${notification.type === "booking"
+                      ? "bg-accent/10 text-accent"
+                      : notification.type === "review"
+                        ? "bg-yellow-500/10 text-yellow-500"
+                        : notification.type === "payment"
+                          ? "bg-green-500/10 text-green-500"
+                          : "bg-primary/10 text-primary"
+                      }`}
                   >
                     {notification.type === "booking" ? (
                       <Calendar className="h-4 w-4" />
@@ -317,7 +324,7 @@ export function DashboardOverview() {
         </Card>
 
         {/* Upcoming Events */}
-        <Card className="glass-card gradient-border col-span-2 lg:col-span-1">
+        <Card className="glass-card gradient-border lg:col-span-4">
           <CardHeader>
             <CardTitle>Upcoming Events</CardTitle>
             <CardDescription>Events scheduled for the next 30 days</CardDescription>
@@ -363,7 +370,7 @@ export function DashboardOverview() {
         </Card>
 
         {/* Client Testimonials */}
-        <Card className="glass-card gradient-border col-span-2">
+        <Card className="glass-card gradient-border lg:col-span-7">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle>Client Testimonials</CardTitle>
