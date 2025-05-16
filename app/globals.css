@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 26 15% 60%;
+    --foreground: 20 10% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 15%;
+    --primary: 15 30% 40%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 12 20% 90%;
+    --secondary-foreground: 15 30% 30%;
+    --muted: 12 10% 96%;
+    --muted-foreground: 20 10% 40%;
+    --accent: 350 80% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 20 10% 85%;
+    --input: 20 10% 85%;
+    --ring: 15 30% 40%;
+    --radius: 0.75rem;
+
+    /* Sidebar variables */
+    --sidebar-background: 20 10% 15%;
+    --sidebar-foreground: 12 10% 96%;
+    --sidebar-primary: 15 70% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 15 30% 25%;
+    --sidebar-accent-foreground: 12 10% 96%;
+    --sidebar-border: 15 30% 25%;
+    --sidebar-ring: 15 70% 50%;
+  }
+
+  .dark {
+    --background: 20 10% 10%;
+    --foreground: 0 0% 98%;
+    --card: 20 10% 15%;
+    --card-foreground: 0 0% 98%;
+    --popover: 20 10% 15%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 15 70% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 15 30% 25%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 15 30% 20%;
+    --muted-foreground: 20 10% 70%;
+    --accent: 350 80% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 15 30% 25%;
+    --input: 15 30% 25%;
+    --ring: 15 70% 50%;
+
+    /* Sidebar variables */
+    --sidebar-background: 20 10% 15%;
+    --sidebar-foreground: 12 10% 96%;
+    --sidebar-primary: 15 70% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 15 30% 25%;
+    --sidebar-accent-foreground: 12 10% 96%;
+    --sidebar-border: 15 30% 25%;
+    --sidebar-ring: 15 70% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-border {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: var(--radius);
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.animated-gradient {
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
+  background-size: 200% 100%;
+  animation: gradient 8s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.stat-card {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px) rotateX(5deg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
